@@ -253,5 +253,73 @@ int IntBST::getSuccessor(int value) const{
 // deletes the Node containing the given value from the tree
 // returns true if the node exist and was deleted or false if the node does not exist
 bool IntBST::remove(int value){
-    return false; // REPLACE THIS NON-SOLUTION
+    Node* subject = getNodeFor(value,root);
+    if(!subject){
+        return false;
+    }
+    Node* leftRoot = subject->left;
+    Node* rightRoot = subject->right;
+
+    Node* successorNode = getSuccessorNode(value);
+    Node* sNR = successorNode->right;
+    int change = getSuccessor(value);
+
+    if(leftRoot && rightRoot){
+        if(sNR){
+            subject->info = change;
+            subject->right = sNR;
+            sNR->parent = subject;
+            delete successorNode;
+            return true;
+        }
+        else{
+            subject->info = successorNode->info;
+            successorNode->parent->left = nullptr;
+            delete successorNode;
+            return true;
+        }
+    }
+    if(!(leftRoot && rightRoot)){
+        if(subject->parent->info > value){
+            subject->parent->left = nullptr;
+            delete subject;
+            return true;
+        }
+        else{
+            subject->parent->right = nullptr;
+            delete subject;
+            return true;
+        }
+    }
+    else{
+        if(leftRoot){
+            if(subject->parent->info < value){
+                subject->parent->right = leftRoot;
+                leftRoot = subject->parent;
+                delete subject;
+                return true;
+            }
+            else{
+                subject->parent->left = leftRoot;
+                leftRoot = subject->parent;
+                delete subject;
+                return true;
+            }
+        }
+        else{
+            if(subject->parent->info < value){
+                subject->parent->right = rightRoot;
+                rightRoot = subject->parent;
+                delete subject;
+                return true;
+            }
+            else{
+                subject->parent->left = rightRoot;
+                rightRoot = subject->parent;
+                delete subject;
+                return true;
+            }
+        }
+    }
+    return true; // REPLACE THIS NON-SOLUTION
 }
