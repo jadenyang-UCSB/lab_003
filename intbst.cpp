@@ -5,6 +5,8 @@
 #include "intbst.h"
 
 #include <iostream>
+#include <vector>
+using namespace std;
 using std::cout;
 
 // constructor sets up empty tree
@@ -14,7 +16,6 @@ IntBST::IntBST() {
 
 // destructor deletes all nodes
 IntBST::~IntBST() {
-    
     clear(root);
 }
 
@@ -252,74 +253,55 @@ int IntBST::getSuccessor(int value) const{
 
 // deletes the Node containing the given value from the tree
 // returns true if the node exist and was deleted or false if the node does not exist
-bool IntBST::remove(int value){
-    Node* subject = getNodeFor(value,root);
-    if(!subject){
-        return false;
+
+bool IntBST::changer(Node* a, Node* b){
+    Node* LEFT = b->left;
+    Node* RIGHT =b->right;
+
+    if(LEFT && RIGHT){
+        Node* success = getSuccessorNode(b->info);
+        Node* &successParent = success->parent;
+        b->info = success->info;
+        return changer(successParent,success);
     }
-    Node* leftRoot = subject->left;
-    Node* rightRoot = subject->right;
 
-    Node* successorNode = getSuccessorNode(value);
-    Node* sNR = successorNode->right;
-    int change = getSuccessor(value);
-
-    if(leftRoot && rightRoot){
-        if(sNR){
-            subject->info = change;
-            subject->right = sNR;
-            sNR->parent = subject;
-            delete successorNode;
-            return true;
+    else if(!LEFT && !RIGHT){
+        if(a->left == b){
+            a->left = nullptr;
+            delete b;
         }
         else{
-            subject->info = successorNode->info;
-            successorNode->parent->left = nullptr;
-            delete successorNode;
-            return true;
+            a->right = nullptr;
+            delete b;
         }
-    }
-    if(!(leftRoot && rightRoot)){
-        if(subject->parent->info > value){
-            subject->parent->left = nullptr;
-            delete subject;
-            return true;
-        }
-        else{
-            subject->parent->right = nullptr;
-            delete subject;
-            return true;
-        }
+        return true;
     }
     else{
-        if(leftRoot){
-            if(subject->parent->info < value){
-                subject->parent->right = leftRoot;
-                leftRoot = subject->parent;
-                delete subject;
-                return true;
+        if(!RIGHT && LEFT){
+            if(a->right == b){
+                a->right = LEFT;
             }
             else{
-                subject->parent->left = leftRoot;
-                leftRoot = subject->parent;
-                delete subject;
-                return true;
+                a->left = LEFT;
             }
+            LEFT->parent = a;
+            delete b;
         }
         else{
-            if(subject->parent->info < value){
-                subject->parent->right = rightRoot;
-                rightRoot = subject->parent;
-                delete subject;
-                return true;
+            if(a->right == b){
+                a->right = RIGHT;
             }
             else{
-                subject->parent->left = rightRoot;
-                rightRoot = subject->parent;
-                delete subject;
-                return true;
+                a->left = RIGHT;
             }
+            RIGHT->parent = a;
+            delete b;
         }
+        return true;
     }
-    return true; // REPLACE THIS NON-SOLUTION
+    return true;
+}
+
+bool IntBST::remove(int value){
+    return changer(getNodeFor(value,root)->parent,getNodeFor(value,root));
 }
