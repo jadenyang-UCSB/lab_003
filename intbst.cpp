@@ -45,6 +45,7 @@ bool IntBST::insert(int value, Node *n) {
         root->parent = nullptr;
         root->left = nullptr;
         root->right = nullptr;
+
         return true;
     }
 
@@ -59,6 +60,7 @@ bool IntBST::insert(int value, Node *n) {
             n->left->info = value;
             n->left->left = nullptr;
             n->left->right = nullptr;
+
             return true;
         }
         else{
@@ -206,6 +208,11 @@ IntBST::Node* IntBST::getPredecessorNode(int value) const{
 // returns the predecessor value of the given value or 0 if there is none
 int IntBST::getPredecessor(int value) const{
     Node* called = getNodeFor(value, root);
+
+    if(!called){
+        return 0;
+    }
+
     Node* parentNode = called->parent;
     Node* iterator = called;
 
@@ -240,6 +247,11 @@ IntBST::Node* IntBST::getSuccessorNode(int value) const{
 int IntBST::getSuccessor(int value) const{
     Node* iterator = getNodeFor(value,root);
     Node* parentNode = iterator->parent;
+
+    if(!iterator){
+        return 0;
+    }
+    
 
     // if(!(iterator->right)){
     //     return parentNode->info;
