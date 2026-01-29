@@ -214,7 +214,7 @@ int IntBST::getPredecessor(int value) const{
         return 0;
     }
 
-    if(called->left == nullptr && called->right == nullptr){
+    if(called->left == nullptr && called->right == nullptr && called == root){
         return 0;
     }
 
@@ -255,7 +255,7 @@ int IntBST::getSuccessor(int value) const{
         return 0;
     }
     
-    if(iterator->left == nullptr && iterator->right == nullptr){
+    if(iterator->left == nullptr && iterator->right == nullptr && iterator == root){
         return 0;
     }
 
