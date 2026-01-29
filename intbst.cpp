@@ -56,6 +56,8 @@ bool IntBST::insert(int value, Node *n) {
             n->left = new Node;
             n->left->parent = n;
             n->left->info = value;
+            n->left->left = nullptr;
+            n->left->right = nullptr;
             return true;
         }
         else{
@@ -68,6 +70,8 @@ bool IntBST::insert(int value, Node *n) {
             n->right = new Node;
             n->right->parent = n;
             n->right->info = value;
+            n->right->right = nullptr;
+            n->right->left = nullptr;
             return true;
         }
         else{
