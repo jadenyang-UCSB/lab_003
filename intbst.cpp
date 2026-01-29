@@ -291,6 +291,7 @@ bool IntBST::changer(Node* a, Node* b){
         }
         return true;
     }
+
     else{
         if(!RIGHT && LEFT){
 
@@ -332,5 +333,10 @@ bool IntBST::changer(Node* a, Node* b){
 }
 
 bool IntBST::remove(int value){
+
+    if(!getNodeFor(value)){
+        return false;
+    }
+    
     return changer(getNodeFor(value,root)->parent,getNodeFor(value,root));
 }
