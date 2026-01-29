@@ -255,7 +255,7 @@ int IntBST::getSuccessor(int value) const{
         return 0;
     }
     
-    if(called->left == nullptr && called->right == nullptr){
+    if(iterator->left == nullptr && iterator->right == nullptr){
         return 0;
     }
 
