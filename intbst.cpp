@@ -40,8 +40,13 @@ bool IntBST::insert(int value, Node *n) {
     if(n == nullptr){
         root = new Node;
         root->info = value;
+
+        root->parent = nullptr;
+        root->left = nullptr;
+        root->right = nullptr;
         return true;
     }
+
     if(n->info == value){
         return false;
     }
@@ -231,21 +236,24 @@ int IntBST::getSuccessor(int value) const{
     Node* iterator = getNodeFor(value,root);
     Node* parentNode = iterator->parent;
 
-    while((parentNode) && (parentNode->info < iterator->info)){
-        if(!(parentNode->parent)){
-            return 0;
+    // if(!(iterator->right)){
+    //     return parentNode->info;
+    // }
+    if(iterator->right){
+        iterator = iterator->right;
+
+        while(iterator->left){
+            iterator = iterator->left;
         }
-        parentNode = parentNode->parent;
     }
-
-    if(!(iterator->right)){
+    else{
+        while((parentNode) && (parentNode->info < iterator->info)){
+            if(!(parentNode->parent)){
+                return 0;
+            }
+            parentNode = parentNode->parent;
+        }
         return parentNode->info;
-    }
-
-    iterator = iterator->right;
-
-    while(iterator->left){
-        iterator = iterator->left;
     }
 
     return iterator->info;
@@ -256,7 +264,7 @@ int IntBST::getSuccessor(int value) const{
 
 bool IntBST::changer(Node* a, Node* b){
     Node* LEFT = b->left;
-    Node* RIGHT =b->right;
+    Node* RIGHT = b->right;
 
     if(LEFT && RIGHT){
         Node* success = getSuccessorNode(b->info);
@@ -266,6 +274,12 @@ bool IntBST::changer(Node* a, Node* b){
     }
 
     else if(!LEFT && !RIGHT){
+
+        if(b == root){
+            root = nullptr;
+            delete root;
+        }
+
         if(a->left == b){
             a->left = nullptr;
             delete b;
@@ -278,6 +292,13 @@ bool IntBST::changer(Node* a, Node* b){
     }
     else{
         if(!RIGHT && LEFT){
+
+            if(b == root){
+                root = root->left;
+                delete b;
+                return true;
+            }
+
             if(a->right == b){
                 a->right = LEFT;
             }
@@ -288,6 +309,13 @@ bool IntBST::changer(Node* a, Node* b){
             delete b;
         }
         else{
+
+            if(b == root){
+                root = root->right;
+                delete b;
+                return true;
+            }
+
             if(a->right == b){
                 a->right = RIGHT;
             }
