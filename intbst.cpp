@@ -277,7 +277,7 @@ bool IntBST::changer(Node* a, Node* b){
 
         if(b == root){
             root = nullptr;
-            delete root;
+            delete b;
             return true;
         }
 
