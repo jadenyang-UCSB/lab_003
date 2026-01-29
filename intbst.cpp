@@ -177,6 +177,7 @@ IntBST::Node* IntBST::getNodeFor(int value, Node* n) const{
     if(n == nullptr){
         return nullptr;
     }
+
     if(value == n->info){
         return n;
     }
@@ -210,6 +211,10 @@ int IntBST::getPredecessor(int value) const{
     Node* called = getNodeFor(value, root);
 
     if(!called){
+        return 0;
+    }
+
+    if(called->left == nullptr && called->right == nullptr){
         return 0;
     }
 
@@ -250,6 +255,10 @@ int IntBST::getSuccessor(int value) const{
         return 0;
     }
     
+    if(called->left == nullptr && called->right == nullptr){
+        return 0;
+    }
+
     Node* parentNode = iterator->parent;
 
     // if(!(iterator->right)){
