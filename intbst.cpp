@@ -268,7 +268,7 @@ bool IntBST::changer(Node* a, Node* b){
 
     if(LEFT && RIGHT){
         Node* success = getSuccessorNode(b->info);
-        Node* &successParent = success->parent;
+        Node* successParent = success->parent;
         b->info = success->info;
         return changer(successParent,success);
     }
@@ -278,6 +278,7 @@ bool IntBST::changer(Node* a, Node* b){
         if(b == root){
             root = nullptr;
             delete root;
+            return true;
         }
 
         if(a->left == b){
