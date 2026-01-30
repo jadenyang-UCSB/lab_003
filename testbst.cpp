@@ -63,6 +63,8 @@ int main() {
             (bst1.contains(512) ? "Y" : "N") << endl;
     }
     if(all || testnum == 6){
+
+
 	cout << "  predecessor of 64 is: " <<
 	    bst1.getPredecessor(64) << endl;
 	cout << "  predecessor of 512 is: " <<
