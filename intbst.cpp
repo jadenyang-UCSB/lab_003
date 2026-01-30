@@ -212,6 +212,10 @@ int IntBST::getPredecessor(int value) const{
 
     Node* minimum = root;
 
+    if(!called){
+        return 0;
+    }
+
     while(minimum->left){
         minimum = minimum->left;
     }
@@ -219,9 +223,6 @@ int IntBST::getPredecessor(int value) const{
         return 0;
     }
 
-    if(!called){
-        return 0;
-    }
 
     if(called->left == nullptr && called->right == nullptr && called == root){
         return 0;
@@ -261,13 +262,14 @@ IntBST::Node* IntBST::getSuccessorNode(int value) const{
 int IntBST::getSuccessor(int value) const{
     Node* iterator = getNodeFor(value,root);
     Node* maximum = root;
+
+    if(!iterator){
+        return 0;
+    }
     while(maximum->right){
         maximum = maximum->right;
     }
     if(maximum->info == value){
-        return 0;
-    }
-    if(!iterator){
         return 0;
     }
     
